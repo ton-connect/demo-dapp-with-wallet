@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tonconnect/ui-react": "^2.0.1-beta.8",
-    "eruda": "^2.11.2",
+    "eruda": "^3.0.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-json-view": "^1.21.3"
