@@ -1,0 +1,76 @@
+.send-sign-data-form {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    align-items: center;
+
+    h3 {
+        color: white;
+        opacity: 0.8;
+        font-size: 28px;
+    }
+
+    h4 {
+        color: white;
+        opacity: 0.8;
+        font-size: 20px;
+        margin: 0;
+    }
+
+    > div {
+        width: 100%;
+
+        span {
+            word-break: break-word;
+        }
+    }
+
+    .buttons-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        justify-content: center;
+
+        > button {
+            border: none;
+            padding: 7px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+
+            background-color: rgba(102, 170, 238, 0.91);
+            color: white;
+            font-size: 16px;
+            line-height: 20px;
+
+            transition: transform 0.1s ease-in-out;
+
+            &:hover {
+                transform: scale(1.03);
+            }
+
+            &:active {
+                transform: scale(0.97);
+            }
+        }
+    }
+
+    .verification-result {
+        margin-top: 16px;
+        padding: 10px;
+        border-radius: 4px;
+        font-weight: bold;
+
+        &.success {
+            background-color: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+        }
+
+        &.error {
+            background-color: rgba(255, 0, 0, 0.1);
+            color: #ff0000;
+        }
+    }
+}

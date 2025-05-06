@@ -1,9 +1,9 @@
-import {BorderRadius, Locales, ReturnStrategy, Theme, THEME, useTonConnectUI} from "@tonconnect/ui-react";
+import {BorderRadius, Locales, ReturnStrategy, SignDataType, Theme, THEME, useTonConnectUI,} from "@tonconnect/ui-react";
 import './footer.scss';
 import {useEffect, useState} from "react";
 import {ColorsModal} from "./ColorsModal/ColorsModal";
 
-const defaultWalletsSelectValue = '["Tonkeeper", "OpenMask"]';
+const SIGN_DATA_TYPES: SignDataType[] = ['text', 'binary', 'cell'];
 
 export const Footer = () => {
     const [checkboxes, setCheckboxes] = useState(
@@ -12,6 +12,16 @@ export const Footer = () => {
 
     const [returnStrategy, setReturnStrategy] = useState('back');
     const [skipRedirect, setSkipRedirect] = useState('ios');
+    const [featuresType, setFeaturesType] = useState<'none' | 'required' | 'preferred'>('none');
+
+    // Состояния для features
+    const [useSendTransaction, setUseSendTransaction] = useState(false);
+    const [useSignData, setUseSignData] = useState(false);
+    const [useExtraCurrencyRequired, setUseExtraCurrencyRequired] = useState(false);
+    const [useMinMessages, setUseMinMessages] = useState(false);
+    const [extraCurrencyRequired, setExtraCurrencyRequired] = useState(false);
+    const [minMessages, setMinMessages] = useState(5);
+    const [selectedSignDataTypes, setSelectedSignDataTypes] = useState<SignDataType[]>([]);
 
     const [_, setOptions] = useTonConnectUI();
 
@@ -51,13 +61,65 @@ export const Footer = () => {
 
     }
 
-    useEffect(() => {
-        const actionValues = ['before', 'success', 'error'];
-        const modals = actionValues.map((item, index) => checkboxes[index] ? item : undefined).filter(i => i) as ("before" | "success" | "error")[];
-        const notifications = actionValues.map((item, index) => checkboxes[index + 3] ? item : undefined).filter(i => i) as ("before" | "success" | "error")[];
+    const onSignDataTypeChange = (type: SignDataType) => {
+        setSelectedSignDataTypes(prev =>
+            prev.includes(type)
+                ? prev.filter(t => t !== type)
+                : [...prev, type]
+        );
+    };
 
-        setOptions({ actionsConfiguration: { modals, notifications } })
-    }, [checkboxes])
+    useEffect(() => {
+        const sendTransactionConfig = {
+            ...(useExtraCurrencyRequired && { extraCurrencyRequired }),
+            ...(useMinMessages && { minMessages })
+        };
+
+        const featuresConfig = {
+            ...(useSendTransaction && Object.keys(sendTransactionConfig).length > 0 && {
+                sendTransaction: sendTransactionConfig
+            }),
+            ...(useSignData && selectedSignDataTypes.length > 0 && {
+                signData: {
+                    types: selectedSignDataTypes
+                }
+            })
+        };
+
+        if (Object.keys(featuresConfig).length === 0) {
+            setOptions({
+                walletsRequiredFeatures: undefined,
+                walletsPreferredFeatures: undefined
+            });
+            return;
+        }
+
+        if (featuresType === 'required') {
+            setOptions({
+                walletsRequiredFeatures: featuresConfig,
+                walletsPreferredFeatures: undefined
+            });
+        } else if (featuresType === 'preferred') {
+            setOptions({
+                walletsRequiredFeatures: undefined,
+                walletsPreferredFeatures: featuresConfig
+            });
+        } else {
+            setOptions({
+                walletsRequiredFeatures: undefined,
+                walletsPreferredFeatures: undefined
+            });
+        }
+    }, [
+        featuresType,
+        useSendTransaction,
+        useSignData,
+        useExtraCurrencyRequired,
+        useMinMessages,
+        extraCurrencyRequired,
+        minMessages,
+        selectedSignDataTypes
+    ]);
 
     return <footer className="footer">
         <div>
@@ -147,6 +209,99 @@ export const Footer = () => {
                     onChange={e => setSkipRedirect(e.target.value)} onBlur={onSkipRedirectInputBlur}
                 />
             </label>
+        </div>
+
+        <div>
+            <label>Request features:</label>
+            <select
+                value={featuresType}
+                onChange={e => {
+                    setFeaturesType(e.target.value as 'none' | 'required' | 'preferred');
+                }}
+            >
+                <option value="none">none</option>
+                <option value="required">walletsRequiredFeatures</option>
+                <option value="preferred">walletsPreferredFeatures</option>
+            </select>
+            {featuresType !== 'none' && (
+                <div style={{ marginTop: 8, textAlign: 'left' }}>
+                    <div style={{ marginBottom: 8 }}>
+                        <label style={{ marginRight: 8 }}>
+                            <input
+                                type="checkbox"
+                                checked={useSendTransaction}
+                                onChange={e => setUseSendTransaction(e.target.checked)}
+                            />
+                            sendTransaction
+                        </label>
+                        {useSendTransaction && (
+                            <div style={{ marginLeft: 20 }}>
+                                <label style={{ marginRight: 8 }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={useExtraCurrencyRequired}
+                                        onChange={e => setUseExtraCurrencyRequired(e.target.checked)}
+                                    />
+                                    extraCurrencyRequired
+                                </label>
+                                {useExtraCurrencyRequired && (
+                                    <label style={{ marginLeft: 8 }}>
+                                        <input
+                                            type="checkbox"
+                                            checked={extraCurrencyRequired}
+                                            onChange={e => setExtraCurrencyRequired(e.target.checked)}
+                                        />
+                                        value
+                                    </label>
+                                )}
+                                <div style={{ marginTop: 4 }}>
+                                    <label style={{ marginRight: 8 }}>
+                                        <input
+                                            type="checkbox"
+                                            checked={useMinMessages}
+                                            onChange={e => setUseMinMessages(e.target.checked)}
+                                        />
+                                        minMessages
+                                    </label>
+                                    {useMinMessages && (
+                                        <input
+                                            type="number"
+                                            value={minMessages}
+                                            onChange={e => setMinMessages(Number(e.target.value))}
+                                            style={{ width: 60, marginLeft: 4 }}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div>
+                        <label style={{ marginRight: 8 }}>
+                            <input
+                                type="checkbox"
+                                checked={useSignData}
+                                onChange={e => setUseSignData(e.target.checked)}
+                            />
+                            signData
+                        </label>
+                        {useSignData && (
+                            <div style={{ marginLeft: 20 }}>
+                                {SIGN_DATA_TYPES.map(type => (
+                                    <label key={type} style={{ marginRight: 8 }}>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedSignDataTypes.includes(type)}
+                                            onChange={() => onSignDataTypeChange(type)}
+                                        />
+                                        {type}
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     </footer>
 }
