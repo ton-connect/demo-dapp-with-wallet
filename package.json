@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "VITE_MANIFEST_URL=https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json vite --host --force",
-    "build": "tsc && GH_PAGES=true VITE_MANIFEST_URL=https://tonconnect-demo-dapp-with-wallet.vercel.app/tonconnect-manifest.json vite build",
+    "build": "tsc && GH_PAGES=true VITE_MANIFEST_URL=https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json vite build",
     "build:dev": "tsc && VITE_MANIFEST_URL=https://tonconnect-demo-dapp-with-wallet.vercel.app/tonconnect-manifest.vercel.json vite build",
     "preview": "VITE_MANIFEST_URL=https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json vite preview"
   },
