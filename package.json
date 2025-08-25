@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --force",
-    "build": "tsc && GH_PAGES=true vite build",
-    "build:dev": "tsc && vite build",
-    "preview": "vite preview"
+    "dev": "VITE_MANIFEST_URL=https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json vite --host --force",
+    "build": "tsc && GH_PAGES=true VITE_MANIFEST_URL=https://tonconnect-demo-dapp-with-wallet.vercel.app/tonconnect-manifest.json vite build",
+    "build:dev": "tsc && VITE_MANIFEST_URL=https://tonconnect-demo-dapp-with-wallet.vercel.app/tonconnect-manifest.vercel.json vite build",
+    "preview": "VITE_MANIFEST_URL=https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json vite preview"
   },
   "dependencies": {
     "@tonconnect/ui-react": "^2.3.0-beta.1",

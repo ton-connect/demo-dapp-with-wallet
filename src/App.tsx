@@ -8,7 +8,7 @@ import {TxForm} from "./components/TxForm/TxForm";
 function App() {
   return (
     <TonConnectUIProvider
-      manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
+      manifestUrl={import.meta.env.VITE_MANIFEST_URL}
       uiPreferences={{theme: THEME.DARK}}
       actionsConfiguration={{
         twaReturnUrl: 'https://t.me/tc_twa_demo_bot/start'
