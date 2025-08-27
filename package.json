@@ -10,7 +10,7 @@
     "preview": "VITE_MANIFEST_URL=https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json vite preview"
   },
   "dependencies": {
-    "@tonconnect/ui-react": "^2.3.0-beta.1",
+    "@tonconnect/ui-react": "^2.3.0-beta.4",
     "eruda": "^2.11.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
