@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path((?!tonconnect-manifest\\.json$|tonconnect-manifest\\.vercel\\.json$).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "tonconnect-demo-dapp-with-wallet.vercel.app"
+        }
+      ],
+      "destination": "https://demo-wallet.legacy.ton-connect.io/:path",
+      "permanent": true
+    }
+  ]
+}
