@@ -1,7 +1,7 @@
 {
-  "url": "https://tonconnect-demo-dapp-with-wallet.vercel.app/",
+  "url": "https://demo-wallet.legacy.ton-connect.io/",
   "name": "Demo Dapp with React UI",
-  "iconUrl": "https://tonconnect-demo-dapp-with-wallet.vercel.app/apple-touch-icon.png",
-  "termsOfUseUrl": "https://tonconnect-demo-dapp-with-wallet.vercel.app/terms-of-use.txt",
-  "privacyPolicyUrl": "https://tonconnect-demo-dapp-with-wallet.vercel.app/privacy-policy.txt"
+  "iconUrl": "https://demo-wallet.legacy.ton-connect.io/apple-touch-icon.png",
+  "termsOfUseUrl": "https://demo-wallet.legacy.ton-connect.io/terms-of-use.txt",
+  "privacyPolicyUrl": "https://demo-wallet.legacy.ton-connect.io/privacy-policy.txt"
 }
